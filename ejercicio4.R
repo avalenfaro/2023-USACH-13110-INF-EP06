@@ -1,3 +1,4 @@
+# ---- PREGUNTA ----
 # La Facultad de Ingeniería desea saber si existe diferencia significativa en el desempeño de los estudiantes
 # en asignaturas críticas de primer semestre. Para ello, le ha entregado un archivo de datos que, para 3
 # asignaturas, indica si una muestra de 50 estudiantes aprobó o reprobó. ¿Qué puede concluir la Facultad?
@@ -6,19 +7,20 @@
 
 
 # ---- HIPOTESIS ----
+# H0: Existe diferencia significativa en el desempeño de los estudiantes en asignaturas críticas de primer semestre.
+# HA: No existe diferencia significativa en el desempeño de los estudiantes en asignaturas críticas de primer semestre.
 
 if(!require("plyr")) install.packages("plyr")
 if(!require("readxl")) install.packages("readxl")
 if(!require("tidyverse")) install.packages("tidyverse")
 if(!require("dplyr")) install.packages("dplyr")
 
-cat("H0: Existe diferencia significativa en el desempeño de los estudiantes en asignaturas críticas de primer semestre.\n")
-cat("HA: No existe diferencia significativa en el desempeño de los estudiantes en asignaturas críticas de primer semestre.\n")
-
 set.seed(102)
+
 EP06_Datos <- read_excel("./EP06 Datos.xls") %>% column_to_rownames(., var = "Id")
 muestra <- sample_n(EP06_Datos, 50) 
 
+# Construimos la tabla de contengencia
 algebra <- count(muestra, "Algebra")
 fisica <- count(muestra, "Fisica")
 calculo <- count(muestra, "Calculo")
@@ -33,7 +35,7 @@ dimnames(tabla) <- list(resultados <- c("Aprueba", "Rechaza"),
 
 print(tabla)
 
-# Prueba chi-cuadrado de homogenidad
+# Realizamos la prueba chi-cuadrado de homogenidad
 prueba <- chisq.test(tabla)
 
 print(prueba)
